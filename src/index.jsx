@@ -364,6 +364,7 @@ export default class DatePicker extends React.Component {
   };
 
   handleChange = (...allArgs) => {
+    const { selected } = this.props;
     let event = allArgs[0];
     if (this.props.onChangeRaw) {
       this.props.onChangeRaw.apply(this, allArgs);
@@ -378,7 +379,9 @@ export default class DatePicker extends React.Component {
       inputValue: event.target.value,
       lastPreSelectChange: PRESELECT_CHANGE_VIA_INPUT
     });
-    const date = parseDate(event.target.value, this.props);
+    const date = selected
+      ? selected.clone(parseDate(event.target.value, this.props))
+      : null;
     if (date || !event.target.value) {
       this.setSelected(date, event, true);
     }
